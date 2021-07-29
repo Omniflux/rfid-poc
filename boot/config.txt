@@ -1,0 +1,3 @@
+[all]
+# Enable uart5 connected to MAX3232 for RS232
+dtoverlay=uart5

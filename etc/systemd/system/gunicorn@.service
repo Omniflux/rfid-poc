@@ -1,0 +1,23 @@
+[Unit]
+Description=gunicorn %i
+Requires=gunicorn@%i.socket
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=notify
+Restart=always
+DynamicUser=yes
+
+ExecStart=/var/www/%i/venv/bin/gunicorn app.main:app -w 4 -k uvicorn.workers.UvicornWorker --forwarded-allow-ips=* --access-logfile %L/gunicorn/%i/access.log --error-logfile %L/gunicorn/%i/error.log --capture-output --log-level debug
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+
+WorkingDirectory=/var/www/%i/root
+LogsDirectory=gunicorn/%i
+
+PrivateTmp=true
+
+Environment=PYTHONUNBUFFERED=1

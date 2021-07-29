@@ -1,0 +1,8 @@
+[Unit]
+Description=RFID Reader
+
+[Service]
+ExecStart=/usr/bin/python3 /usr/local/bin/rfid.py
+
+[Install]
+WantedBy=multi-user.target

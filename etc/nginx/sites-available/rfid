@@ -1,0 +1,16 @@
+server {
+  listen 80 default_server;
+  listen [::]:80 default_server;
+
+  server_name _;
+
+  location / {
+    root /var/www/html;
+    try_files $uri $uri/ /index.html;
+  }
+
+  location /data {
+    include proxy_params;
+    proxy_pass http://unix:/run/gunicorn/app/rfid.sock;
+  }
+}
