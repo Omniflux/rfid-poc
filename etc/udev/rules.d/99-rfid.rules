@@ -1,2 +1,2 @@
 # Map /dev/rfid to UART5 on Raspberry Pi 4, set baud rate to 115200
-KERNEL=="ttyAMA[0-9]*", SUBSYSTEM=="tty", ATTR{iomem_base}=="0xFE201A00", SYMLINK+="rfid", RUN+="/bin/stty -F /dev/%k 115200"
+KERNEL=="ttyAMA[0-9]*", SUBSYSTEM=="tty", PROGRAM="/usr/bin/awk '!/^Raspberry Pi 4/ {exit 1}' /proc/device-tree/model", ATTR{iomem_base}=="0xFE201A00", SYMLINK+="rfid", RUN+="/bin/stty -F /dev/%k 115200"
